@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CartPanda Funnel Builder
 
-## Getting Started
+Visual drag-and-drop funnel builder
 
-First, run the development server:
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). Funnel state is saved in `localStorage` and survives refresh.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Architecture
 
-## Learn More
+- **Next.js** – one page, everything runs on the client.
+- **React Flow** – used for the canvas: drag nodes, connect them, custom node for each funnel step.
+- **Zustand** – one store for nodes, edges, and all actions. Undo/redo (zundo) lives in memory only. Persist middleware sits on the outside and writes only nodes, edges, counters to localStorage, so after undo/redo the new state gets saved too. A small merge step keeps actions intact when restoring from history.
+- **Layout** – funnel code under `src/features/funnel-builder/`, shared UI under `src/shared/`.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tradeoffs & what I'd do next
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Clear all** – Would add a "Clear all" button in the toolbar to reset the canvas in one click. Not there yet.
+- **Validation** – Would improve it: more rules, clearer messages, highlight problematic nodes, etc.
+- **Undo/redo** – Would persist it: save history to localStorage too so undo/redo still works after refresh. Right now it's session-only.
