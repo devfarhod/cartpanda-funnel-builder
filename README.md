@@ -2,6 +2,8 @@
 
 Visual drag-and-drop funnel builder
 
+**Live app**: https://dazzling-semifreddo-788a90.netlify.app/
+
 ## Run locally
 
 ```bash
